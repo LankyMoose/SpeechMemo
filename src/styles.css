@@ -28,3 +28,59 @@ button:disabled,
 button.active {
   opacity: 0.5;
 }
+
+footer {
+  background-color: #2a2a2a;
+  box-shadow: 0 -2px 5px #0002;
+}
+
+.todo-item {
+  border-radius: .5rem;
+}
+
+.todo-item:after {
+  border-radius: .5rem;
+}
+
+.highlight {
+  animation: scale 1s ease-in-out;
+  position: relative;
+}
+
+.highlight:after {
+  animation: highlight 1s ease-in-out;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes highlight {
+  0% {
+    opacity: .3;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scale {
+  0% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.05;
+  }
+
+  100% {
+    scale: 1;
+  }
+}

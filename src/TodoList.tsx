@@ -1,17 +1,28 @@
 import { Transition, TransitionState } from "kaioken"
-import { useTodos, TodoItem as Todo } from "./TodosProvider"
+import { useTodos, TodoItem as Todo, isNewTodo } from "./TodosProvider"
 import { DeleteIcon } from "./DeleteIcon"
 
 export function TodoList() {
-  const { todos } = useTodos()
+  const { todos, deleteTodo } = useTodos()
 
   return (
     <ul className="p-4 flex flex-col gap-4">
-      {todos.map((todo) => (
+      {todos.map((todo, idx) => (
         <Transition
           key={todo.id}
-          in={true}
-          element={(state) => <TodoItem todo={todo} transitionState={state} />}
+          in={!todo.deleted}
+          onTransitionEnd={(state) => {
+            if (state === "exited") {
+              deleteTodo(todo.id, true)
+            }
+          }}
+          element={(state) => (
+            <TodoItem
+              todo={todo}
+              zIndex={todos.length - idx}
+              transitionState={state}
+            />
+          )}
         />
       ))}
     </ul>
@@ -21,27 +32,30 @@ export function TodoList() {
 interface TodoItemProps {
   todo: Todo
   transitionState: TransitionState
+  zIndex: number
 }
 
-function TodoItem({ todo, transitionState }: TodoItemProps) {
-  const { setTodos } = useTodos()
-
-  const deleteTodo = (id: string) => {
-    setTodos((todos) => todos.filter((todo) => todo.id !== id))
-  }
+function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
+  const { deleteTodo } = useTodos()
 
   const opacity = transitionState === "entered" ? "1" : "0"
   const translateY = transitionState === "entered" ? "0" : "-100%"
   return (
     <li
-      style={{ opacity, transform: `translateY(${translateY})` }}
-      className="transition-all items-start flex gap-4 p-4 rounded-lg bg-[#333] shadow-md shadow-[#0003]"
+      style={{
+        opacity,
+        transform: `translateY(${translateY})`,
+        zIndex: zIndex.toString(),
+      }}
+      className={`todo-item transition-all items-start flex gap-4 p-4 bg-[#333] shadow-md shadow-[#0003] ${
+        isNewTodo(todo) ? "highlight" : ""
+      }`}
     >
       <span className="flex-grow select-none">{todo.text}</span>
       <div className="flex gap-2 items-center">
         <button
           className="text-neutral-300 hover:text-neutral-400"
-          onclick={() => deleteTodo(todo.id)}
+          onclick={() => deleteTodo(todo.id, false)}
         >
           <DeleteIcon width="2rem" height="2rem" />
         </button>

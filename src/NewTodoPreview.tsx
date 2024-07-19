@@ -4,18 +4,8 @@ import { useSpeech } from "./SpeechContext"
 import { useTodos } from "./TodosProvider"
 
 export function NewTodoPreview() {
-  const { setTodos } = useTodos()
+  const { addTodo } = useTodos()
   const { output, finished, setOutput } = useSpeech()
-
-  const addTodo = () => {
-    if (output !== null && output.trim() !== "") {
-      setTodos((todos) => [
-        { id: crypto.randomUUID(), text: output, done: false },
-        ...todos,
-      ])
-      setOutput(null)
-    }
-  }
 
   return (
     <Transition
@@ -52,8 +42,9 @@ export function NewTodoPreview() {
         )
       }}
       onTransitionEnd={(state) => {
-        if (state === "exited") {
-          addTodo()
+        if (state === "exited" && output !== null && output.trim() !== "") {
+          addTodo({ id: crypto.randomUUID(), text: output })
+          setOutput(null)
         }
       }}
     />

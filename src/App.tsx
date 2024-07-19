@@ -22,7 +22,7 @@ export function App() {
           >
             <TodoList />
           </div>
-          <div className="w-full relative flex h-[100px] items-center p-4 justify-center">
+          <footer className="w-full relative flex h-[100px] items-center p-4 justify-center z-[99999]">
             <NewTodoPreview />
             <RecordButton
               onRecordedValue={() => {
@@ -32,7 +32,7 @@ export function App() {
                 })
               }}
             />
-          </div>
+          </footer>
         </main>
       </TodosProvider>
     </SpeechProvider>
