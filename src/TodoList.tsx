@@ -47,14 +47,14 @@ function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
         transform: `translateY(${translateY})`,
         zIndex: zIndex.toString(),
       }}
-      className={`todo-item transition-all items-start flex gap-4 p-4 bg-[#333] shadow-md shadow-[#0003] ${
+      className={`todo-item transition-all items-start flex gap-4 p-4 bg-[#fff1] shadow-md shadow-[#0003] ${
         isNewTodo(todo) ? "highlight" : ""
       }`}
     >
       <span className="flex-grow select-none">{todo.text}</span>
       <div className="flex gap-2 items-center">
         <button
-          className="text-neutral-300 hover:text-neutral-400"
+          className="text-neutral-400 hover:text-neutral-200"
           onclick={() => deleteTodo(todo.id, false)}
         >
           <DeleteIcon width="2rem" height="2rem" />

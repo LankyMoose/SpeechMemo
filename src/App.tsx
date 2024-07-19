@@ -18,11 +18,11 @@ export function App() {
         <main className="flex flex-col flex-grow h-full w-full">
           <div
             ref={todoListContainerRef}
-            className="flex-grow max-h-[calc(100vh-100px)] overflow-auto"
+            className="flex-grow max-h-[calc(100vh-80px)] overflow-auto"
           >
             <TodoList />
           </div>
-          <footer className="w-full relative flex h-[100px] items-center p-4 justify-center z-[99999]">
+          <footer className="w-full relative flex h-[80px] items-center p-2 justify-center z-[99999]">
             <NewTodoPreview />
             <RecordButton
               onRecordedValue={() => {
