@@ -26,6 +26,10 @@ button.active {
   filter: grayscale(30%);
 }
 
+button:active {
+  scale: 0.95;
+}
+
 .todo-item {
   border-radius: .5rem;
 }
