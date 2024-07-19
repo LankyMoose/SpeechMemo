@@ -1,12 +1,19 @@
 import { SpeechRecognition, useSpeech } from "./SpeechContext"
 
-export const RecordButton = () => {
-  const { speech, setSpeech, setOutput, setFinished } = useSpeech()
+interface RecordButtonProps {
+  onRecordedValue: () => void
+}
+
+export const RecordButton = (props: RecordButtonProps) => {
+  const { speech, setSpeech, setOutput, output, setFinished } = useSpeech()
 
   const handleRecordingEnd = () => {
     if (!speech) return
     speech.abort()
     setFinished(true)
+    if (output !== null && output.trim() !== "") {
+      props.onRecordedValue()
+    }
   }
 
   return (

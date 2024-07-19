@@ -1,5 +1,6 @@
 import { Transition, TransitionState } from "kaioken"
 import { useTodos, TodoItem as Todo } from "./TodosProvider"
+import { DeleteIcon } from "./DeleteIcon"
 
 export function TodoList() {
   const { todos } = useTodos()
@@ -24,28 +25,26 @@ interface TodoItemProps {
 
 function TodoItem({ todo, transitionState }: TodoItemProps) {
   const { setTodos } = useTodos()
-  const toggleTodo = (id: string) => {
-    setTodos((todos) =>
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, done: !todo.done } : todo
-      )
-    )
+
+  const deleteTodo = (id: string) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id))
   }
+
   const opacity = transitionState === "entered" ? "1" : "0"
   const translateY = transitionState === "entered" ? "0" : "-100%"
   return (
     <li
       style={{ opacity, transform: `translateY(${translateY})` }}
-      className="transition-all flex items-center gap-4 p-4 rounded-lg bg-[#333] shadow-md shadow-[#0003]"
+      className="transition-all items-start flex gap-4 p-4 rounded-lg bg-[#333] shadow-md shadow-[#0003]"
     >
       <span className="flex-grow select-none">{todo.text}</span>
-      <div className="flex items-center">
-        <input
-          className="w-8 h-8"
-          type="checkbox"
-          checked={todo.done}
-          onchange={() => toggleTodo(todo.id)}
-        />
+      <div className="flex gap-2 items-center">
+        <button
+          className="text-neutral-300 hover:text-neutral-400"
+          onclick={() => deleteTodo(todo.id)}
+        >
+          <DeleteIcon width="2rem" height="2rem" />
+        </button>
       </div>
     </li>
   )
