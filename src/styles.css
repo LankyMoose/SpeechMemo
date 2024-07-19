@@ -17,6 +17,10 @@
   min-height: 100vh;
 }
 
+button {
+  transition: all 0.15s ease-in-out;
+}
+
 button:disabled,
 button.active {
   filter: grayscale(30%);
