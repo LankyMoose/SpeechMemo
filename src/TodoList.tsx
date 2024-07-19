@@ -6,7 +6,7 @@ export function TodoList() {
   const { todos, deleteTodo } = useTodos()
 
   return (
-    <ul className="p-4 flex flex-col gap-4">
+    <ul className="p-4 flex flex-col gap-4 overflow-hidden">
       {todos.map((todo, idx) => (
         <Transition
           key={todo.id}
@@ -51,7 +51,11 @@ function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
         isNewTodo(todo) ? "highlight" : ""
       }`}
     >
-      <span className="flex-grow select-none">{todo.text}</span>
+      <div className="flex-grow flex flex-col gap-2 select-none">
+        <span>{todo.text}</span>
+        <small className="text-neutral-400">{numToDate(todo.createdAt)}</small>
+      </div>
+
       <div className="flex gap-2 items-center">
         <button
           className="text-neutral-400 hover:text-neutral-200"
@@ -62,4 +66,8 @@ function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
       </div>
     </li>
   )
+}
+
+function numToDate(num: number) {
+  return new Date(num).toLocaleString()
 }

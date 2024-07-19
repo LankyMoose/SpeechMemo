@@ -1,15 +1,18 @@
 import { createContext, useContext, useState } from "kaioken"
 
-export interface TodoItem {
+export type TodoItem = {
   id: string
   text: string
+  createdAt: number
   deleted?: boolean
 }
+
+export type TodoItemDTO = Omit<TodoItem, "deleted" | "createdAt" | "id">
 
 interface TodosCtx {
   todos: TodoItem[]
   setTodos: (setter: (prev: TodoItem[]) => TodoItem[]) => void
-  addTodo: (todo: TodoItem) => void
+  addTodo: (todo: TodoItemDTO) => void
   deleteTodo: (id: string, hardDelete: boolean) => void
 }
 
@@ -36,9 +39,15 @@ export function TodosProvider({ children }: { children: JSX.Children }) {
     localStorage.setItem("s2todos", JSON.stringify(newTodos))
   }
 
-  const addTodo = (todo: TodoItem) => {
-    Object.defineProperty(todo, newTodoSymbol, { value: true })
-    setTodosLocal((todos) => [todo, ...todos])
+  const addTodo = (todo: TodoItemDTO) => {
+    setTodosLocal((todos) => [
+      Object.assign(todo, {
+        id: Math.random().toString(36).slice(2),
+        createdAt: Date.now(),
+        [newTodoSymbol]: true,
+      }),
+      ...todos,
+    ])
   }
   const deleteTodo = (id: string, hardDelete: boolean) => {
     if (hardDelete) {

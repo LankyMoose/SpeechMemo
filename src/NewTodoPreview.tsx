@@ -43,7 +43,7 @@ export function NewTodoPreview() {
       }}
       onTransitionEnd={(state) => {
         if (state === "exited" && output !== null && output.trim() !== "") {
-          addTodo({ id: crypto.randomUUID(), text: output })
+          addTodo({ text: output })
           setOutput(null)
         }
       }}
