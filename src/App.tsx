@@ -15,14 +15,11 @@ export function App() {
   return (
     <SpeechProvider>
       <TodosProvider>
-        <main className="flex flex-col flex-grow h-full w-full">
-          <div
-            ref={todoListContainerRef}
-            className="flex-grow max-h-[calc(100vh-80px)] overflow-auto"
-          >
+        <main className="flex flex-col flex-grow h-full w-full pb-[80px]">
+          <div ref={todoListContainerRef} className="flex-grow overflow-auto">
             <TodoList />
           </div>
-          <footer className="w-full relative flex h-[80px] items-center p-2 justify-center z-[99999]">
+          <footer className="w-full fixed bottom-0  flex h-[80px] items-center p-2 justify-center z-[99999]">
             <NewTodoPreview />
             <RecordButton
               onRecordedValue={() => {

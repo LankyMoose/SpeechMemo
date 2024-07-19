@@ -6,7 +6,7 @@ export function TodoList() {
   const { todos, deleteTodo } = useTodos()
 
   return (
-    <ul className="p-4 flex flex-col gap-4 overflow-hidden">
+    <ul className="p-4 flex flex-col gap-4 overflow-hidden max-w-screen-md mx-auto">
       {todos.map((todo, idx) => (
         <Transition
           key={todo.id}

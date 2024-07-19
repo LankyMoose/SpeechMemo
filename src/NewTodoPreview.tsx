@@ -10,6 +10,7 @@ export function NewTodoPreview() {
   return (
     <Transition
       in={!finished}
+      //in={true}
       element={(state) => {
         if (state === "exited") return null
         const opacity = state === "entered" ? "1" : "0"
@@ -25,9 +26,8 @@ export function NewTodoPreview() {
               opacity,
               translate: `0 ${translateY}`,
               textShadow: "1px 1px 1px #222a",
-              boxShadow: "2px 2px 8px #0004",
             }}
-            className="p-4 bg-emerald-500 text-emerald-50 transition-all absolute top-0 mx-4 pointer-events-none rounded-lg"
+            className="p-4 bg-emerald-600 my-shadow text-emerald-50 transition-all absolute top-0 mx-4 pointer-events-none rounded-lg"
           >
             {output === null || output.trim() === "" ? (
               <EllipsisIcon

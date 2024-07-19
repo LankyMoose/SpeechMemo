@@ -20,7 +20,7 @@ export const RecordButton = (props: RecordButtonProps) => {
     <div>
       <button
         oncontextmenu={(e) => e.preventDefault()}
-        className={`rounded-full bg-[#9f2121] border-white border-4 w-12 h-12 ${
+        className={` my-shadow rounded-full bg-[#9f2121] border-white border-4 w-12 h-12 ${
           !!speech ? "active" : ""
         }`}
         onpointerdown={() => {
