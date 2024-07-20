@@ -5,16 +5,7 @@ interface RecordButtonProps {
 }
 
 export function RecordButton(props: RecordButtonProps) {
-  const { speech, setSpeech, setOutput, output, setFinished } = useSpeech()
-
-  const handleRecordingEnd = () => {
-    if (!speech) return
-    speech.abort()
-    setFinished(true)
-    if (output !== null && output.trim() !== "") {
-      props.onRecordedValue()
-    }
-  }
+  const { speech, setSpeech, setOutput, output, setRecording } = useSpeech()
 
   return (
     <div>
@@ -24,27 +15,33 @@ export function RecordButton(props: RecordButtonProps) {
           !!speech ? "active" : ""
         }`}
         onpointerdown={() => {
-          if (speech) {
-            return handleRecordingEnd()
-          }
-          setFinished(false)
           const newSpeech = new SpeechRecognition()
           newSpeech.continuous = true
           newSpeech.interimResults = true
           newSpeech.start()
           newSpeech.addEventListener("result", (event) => {
-            setOutput(
-              Array.from(event.results)
-                .map((result) => result[0].transcript)
-                .filter(Boolean)
-                .join(" ")
-            )
+            const output = Array.from(event.results)
+              .map((result) => result[0].transcript)
+              .filter(Boolean)
+              .join(" ")
+              .trim()
+
+            setOutput(output === "" ? null : output)
           })
-          newSpeech.addEventListener("start", () => setSpeech(newSpeech))
-          newSpeech.addEventListener("end", () => setSpeech(null))
+          newSpeech.addEventListener("start", () => {
+            setSpeech(newSpeech)
+            setRecording(true)
+          })
+          newSpeech.addEventListener("end", () => {
+            setSpeech(null)
+            setRecording(false)
+            if (output !== null) {
+              props.onRecordedValue()
+            }
+          })
         }}
-        onpointerup={handleRecordingEnd}
-        onpointerleave={handleRecordingEnd}
+        onpointerup={() => speech?.abort()}
+        onpointerleave={() => speech?.abort()}
       ></button>
     </div>
   )

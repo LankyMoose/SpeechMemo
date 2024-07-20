@@ -5,11 +5,11 @@ import { useSpeech } from "$/context/SpeechContext"
 
 export function NewTodoPreview() {
   const { addTodo } = useTodos()
-  const { output, finished, setOutput } = useSpeech()
+  const { output, recording, setOutput } = useSpeech()
 
   return (
     <Transition
-      in={!finished}
+      in={recording}
       element={(state) => {
         if (state === "exited") return null
         const opacity = state === "entered" ? "1" : "0"
@@ -28,7 +28,7 @@ export function NewTodoPreview() {
             }}
             className="p-4 bg-emerald-600 custom-shadow text-emerald-50 transition-all absolute top-0 mx-4 pointer-events-none rounded-lg"
           >
-            {output === null || output.trim() === "" ? (
+            {output === null ? (
               <EllipsisIcon
                 width="1.5rem"
                 height="1.5rem"
@@ -41,7 +41,7 @@ export function NewTodoPreview() {
         )
       }}
       onTransitionEnd={(state) => {
-        if (state === "exited" && output !== null && output.trim() !== "") {
+        if (state === "exited" && output !== null) {
           addTodo({ text: output })
           setOutput(null)
         }
