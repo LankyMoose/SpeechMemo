@@ -13,6 +13,13 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null
   )
+  const [volume, setVolume] = useState(
+    parseFloat(storage.get("volume") || "0.5")
+  )
+  const setVolumeLocal = (volume: string) => {
+    storage.set("volume", volume)
+    setVolume(parseFloat(volume))
+  }
 
   useEffect(() => {
     window.speechSynthesis.addEventListener("voiceschanged", () => {
@@ -45,6 +52,8 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
         setSelectedVoice: setSelectedVoiceLocal,
         utterance,
         setUtterance,
+        volume,
+        setVolume: setVolumeLocal,
       }}
     >
       {children}

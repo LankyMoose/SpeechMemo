@@ -8,6 +8,8 @@ interface VoicesCtx {
   setSelectedVoice: (voice: SpeechSynthesisVoice | null) => void
   utterance: SpeechSynthesisUtterance | null
   setUtterance: (utterance: SpeechSynthesisUtterance | null) => void
+  volume: number
+  setVolume: (volume: string) => void
 }
 
 export const VoicesContext = createContext<VoicesCtx>(null as any)

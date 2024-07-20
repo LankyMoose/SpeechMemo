@@ -54,11 +54,11 @@ function VoiceSelectorMenu() {
             ref={ref}
             style={{
               opacity: state === "entered" ? "1" : "0",
-              translate: `0 ${state === "entered" ? "0" : "100%"}`,
+              translate: `0 ${state === "entered" ? "0" : "-100%"}`,
               overflowY: state === "entered" ? "auto" : "hidden",
               scrollbarWidth: "thin",
             }}
-            className="voice-selector z-[9999999999] fixed right-0 sm:right-16 bottom-0 sm:bottom-16 sm:rounded-lg transition-all bg-[#000b] backdrop-blur flex flex-col p-[2px] gap-[2px]"
+            className="voice-selector z-[9999999999] fixed right-0 sm:right-16 top-0 sm:top-16 sm:rounded-lg transition-all bg-[#000b] backdrop-blur flex flex-col p-[2px] gap-[2px]"
           >
             {voices.map((voice) => (
               <button

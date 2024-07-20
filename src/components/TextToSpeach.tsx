@@ -7,7 +7,7 @@ export const TextToSpeech = ({
   inputText,
   ...props
 }: { inputText: string } & ElementProps<"button">) => {
-  const { selectedVoice, utterance, setUtterance } = useVoices()
+  const { selectedVoice, utterance, setUtterance, volume } = useVoices()
   return (
     <button
       onclick={() => {
@@ -20,6 +20,7 @@ export const TextToSpeech = ({
         }
         const newUtterance = new SpeechSynthesisUtterance(inputText)
         newUtterance.voice = selectedVoice
+        newUtterance.volume = volume
         newUtterance.rate = 1
         newUtterance.addEventListener("end", () => setUtterance(null))
         setUtterance(newUtterance)
