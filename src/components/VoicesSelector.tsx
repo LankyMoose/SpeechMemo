@@ -45,7 +45,7 @@ export const VoiceSelector = () => {
             {voices.map((voice) => (
               <button
                 key={voice.name}
-                className={`truncate-380 ${
+                className={`truncate-text ${
                   voice === selectedVoice ? "text-blue-300" : "text-indigo-50"
                 } text-sm text-left hover:text-blue-300 text-nowrap bg-[#ffffff05] px-4 py-2 rounded-md`}
                 onclick={() => {

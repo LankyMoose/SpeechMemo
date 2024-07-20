@@ -97,9 +97,8 @@ button:active {
   }
 }
 
-
-.truncate-380 {
-  max-width: 380px;
+.truncate-text {
+  max-width: 100%;
   overflow: hidden;
   min-height: 35px;
   text-overflow: ellipsis;
