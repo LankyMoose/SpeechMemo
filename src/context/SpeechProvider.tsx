@@ -2,7 +2,7 @@ import { signal, useState } from "kaioken"
 import { SpeechContext } from "$/context/SpeechContext"
 import { useTodos } from "$/context/TodosContext"
 import { ErrorDisplay } from "$/components/ErrorDisplay"
-import { isMobile, isBraveDesktop, microphoneEnabled } from "$/support"
+import { isMobile, isBraveDesktop, microphonePermissionState } from "$/support"
 
 export function SpeechProvider(props: {
   children: JSX.Children
@@ -12,7 +12,7 @@ export function SpeechProvider(props: {
   const [speech, setSpeech] = useState<SpeechRecognition | null>(null)
   const output = signal<string | null>(null)
   const [recording, setRecording] = useState(false)
-  const micPerms = microphoneEnabled.value
+  const micPerms = microphonePermissionState.value
 
   if (isBraveDesktop) {
     return (
@@ -46,9 +46,12 @@ export function SpeechProvider(props: {
   }
 
   const startSpeechRecognition = () => {
-    const micPerm = microphoneEnabled.value
+    const micPerm = microphonePermissionState.value
     const newSpeech = new SpeechRecognition()
     newSpeech.addEventListener("error", (event) => {
+      if (micPerm === "prompt" && event.error === "aborted") {
+        return
+      }
       alert(`Oops! An error occurred:\n${event.error}`)
       setSpeech(null)
       setRecording(false)

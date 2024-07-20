@@ -13,7 +13,7 @@ export const isBrave =
 
 export const isBraveDesktop = isBrave && !isMobile
 
-export const microphoneEnabled = signal<PermissionState>("prompt")
+export const microphonePermissionState = signal<PermissionState>("prompt")
 
 navigator.permissions
   .query(
@@ -22,10 +22,10 @@ navigator.permissions
   )
   .then(function (permissionStatus) {
     console.log(permissionStatus.state) // granted, denied, prompt
-    microphoneEnabled.value = permissionStatus.state
+    microphonePermissionState.value = permissionStatus.state
 
     permissionStatus.onchange = function () {
-      microphoneEnabled.value = this.state
+      microphonePermissionState.value = this.state
       console.log(this.state)
     }
   })
