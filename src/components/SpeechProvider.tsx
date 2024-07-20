@@ -1,5 +1,6 @@
 import { SpeechContext } from "$/context/SpeechContext"
-import { useState } from "kaioken"
+import { useTodos } from "$/context/TodosContext"
+import { signal, useState } from "kaioken"
 
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -10,8 +11,9 @@ export function SpeechProvider(props: {
   children: JSX.Children
   onRecordedValue: () => void
 }) {
+  const { addTodo } = useTodos()
   const [speech, setSpeech] = useState<SpeechRecognition | null>(null)
-  const [output, setOutput] = useState<string | null>(null)
+  const output = signal<string | null>(null)
   const [recording, setRecording] = useState(false)
 
   const SpeechRecognition =
@@ -24,41 +26,49 @@ export function SpeechProvider(props: {
   const startSpeechRecognition = () => {
     const newSpeech = new SpeechRecognition()
     newSpeech.continuous = true
-    newSpeech.interimResults = true
+    newSpeech.interimResults = !isMobile
     newSpeech.start()
     newSpeech.addEventListener("result", (event) => {
-      const output = Array.from(event.results)
+      const newOutput = Array.from(event.results)
         .filter((result) => !isMobile || result.isFinal)
         .map((result) => result[0].transcript)
         .filter(Boolean)
         .join(" ")
         .trim()
-
-      setOutput(output === "" ? null : output)
+      //console.log("result", newOutput)
+      output.value = newOutput || null
     })
     newSpeech.addEventListener("start", () => {
       setSpeech(newSpeech)
       setRecording(true)
     })
     newSpeech.addEventListener("end", () => {
+      console.log("end", output)
       setSpeech(null)
       setRecording(false)
-      if (output !== null) {
+      if (output.value !== null) {
+        console.log("onRecordedValue")
+        addTodo({ text: output.value })
         props.onRecordedValue()
       }
     })
   }
 
+  const onNewTodoAnimationCompleted = () => {
+    console.log("onNewTodoAnimationCompleted")
+    output.value = null
+  }
+
   return (
     <SpeechContext.Provider
       value={{
+        output: output.value,
         speech,
         setSpeech,
-        output,
-        setOutput,
         recording,
         setRecording,
         startSpeechRecognition,
+        onNewTodoAnimationCompleted,
       }}
     >
       {props.children}

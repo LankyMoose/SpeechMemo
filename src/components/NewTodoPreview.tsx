@@ -1,11 +1,9 @@
 import { Transition } from "kaioken"
 import { EllipsisIcon } from "$/components/icons/EllipsisIcon"
-import { useTodos } from "$/context/TodosContext"
 import { useSpeech } from "$/context/SpeechContext"
 
 export function NewTodoPreview() {
-  const { addTodo } = useTodos()
-  const { output, recording, setOutput } = useSpeech()
+  const { output, recording, onNewTodoAnimationCompleted } = useSpeech()
 
   return (
     <Transition
@@ -41,9 +39,8 @@ export function NewTodoPreview() {
         )
       }}
       onTransitionEnd={(state) => {
-        if (state === "exited" && output !== null) {
-          addTodo({ text: output })
-          setOutput(null)
+        if (state === "exited") {
+          onNewTodoAnimationCompleted()
         }
       }}
     />
