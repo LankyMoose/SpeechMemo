@@ -32,7 +32,7 @@ export function TodosProvider({ children }: { children: JSX.Children }) {
       return setTodosLocal((todos) => todos.filter((todo) => todo.id !== id))
     }
     setTodos((todos) =>
-      todos.map((todo) => (todo.id === id ? { ...todo, deleted: true } : todo))
+      todos.map((todo) => (todo.id === id ? { ...todo, deleting: true } : todo))
     )
   }
 

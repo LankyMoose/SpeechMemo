@@ -10,7 +10,7 @@ export function TodoList() {
       {todos.map((todo, idx) => (
         <Transition
           key={todo.id}
-          in={!todo.deleted}
+          in={!todo.deleting}
           onTransitionEnd={(state) => {
             if (state === "exited") {
               if (playingTodo?.id === todo.id) {
