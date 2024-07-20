@@ -1,11 +1,8 @@
 import { SpeechContext } from "$/context/SpeechContext"
 import { useTodos } from "$/context/TodosContext"
 import { signal, useState } from "kaioken"
-
-const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
+import { isMobile, isBraveDesktop } from "$/support"
+import { ErrorDisplay } from "./ErrorDisplay"
 
 export function SpeechProvider(props: {
   children: JSX.Children
@@ -16,15 +13,34 @@ export function SpeechProvider(props: {
   const output = signal<string | null>(null)
   const [recording, setRecording] = useState(false)
 
+  if (isBraveDesktop) {
+    return (
+      <ErrorDisplay>
+        <p className="mb-8">
+          Brave Desktop does not support speech recognition 😭
+        </p>
+        <p>Try another browser!</p>
+      </ErrorDisplay>
+    )
+  }
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
 
   if (!SpeechRecognition) {
-    return <p>Speech recognition not supported</p>
+    return (
+      <ErrorDisplay>
+        Speech recognition not supported 😭. Try another browser!
+      </ErrorDisplay>
+    )
   }
 
   const startSpeechRecognition = () => {
     const newSpeech = new SpeechRecognition()
+    newSpeech.addEventListener("error", (event) => {
+      alert(`Oops! An error occurred:\n${event.error}`)
+      setSpeech(null)
+      setRecording(false)
+    })
     newSpeech.continuous = true
     newSpeech.interimResults = !isMobile
     newSpeech.start()
@@ -35,7 +51,6 @@ export function SpeechProvider(props: {
         .filter(Boolean)
         .join(" ")
         .trim()
-      //console.log("result", newOutput)
       output.value = newOutput || null
     })
     newSpeech.addEventListener("start", () => {
@@ -43,11 +58,9 @@ export function SpeechProvider(props: {
       setRecording(true)
     })
     newSpeech.addEventListener("end", () => {
-      console.log("end", output)
       setSpeech(null)
       setRecording(false)
       if (output.value !== null) {
-        console.log("onRecordedValue")
         addTodo({ text: output.value })
         props.onRecordedValue()
       }
@@ -55,7 +68,6 @@ export function SpeechProvider(props: {
   }
 
   const onNewTodoAnimationCompleted = () => {
-    console.log("onNewTodoAnimationCompleted")
     output.value = null
   }
 
