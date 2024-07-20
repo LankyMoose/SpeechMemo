@@ -29,7 +29,8 @@ export function SpeechProvider(props: {
   if (!SpeechRecognition) {
     return (
       <ErrorDisplay>
-        Speech recognition not supported 😭. Try another browser!
+        <p className="mb-8">Speech recognition not supported 😭</p>
+        <p>Try another browser!</p>
       </ErrorDisplay>
     )
   }
