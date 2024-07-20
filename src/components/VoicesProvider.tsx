@@ -20,6 +20,11 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
     storage.set("volume", volume)
     setVolume(parseFloat(volume))
   }
+  const [muted, setMuted] = useState(storage.get("muted") === "true")
+  const setMutedLocal = (muted: boolean) => {
+    storage.set("muted", muted ? "true" : "false")
+    setMuted(muted)
+  }
 
   useEffect(() => {
     window.speechSynthesis.addEventListener("voiceschanged", () => {
@@ -42,6 +47,19 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
     setSelectedVoice(voice)
   }
 
+  const createUtterance = (text: string) => {
+    if (utterance) {
+      window.speechSynthesis.cancel()
+    }
+    const newUtterance = new SpeechSynthesisUtterance(text)
+    newUtterance.voice = selectedVoice
+    newUtterance.volume = muted ? 0 : volume
+    newUtterance.rate = 1
+    newUtterance.addEventListener("end", () => setUtterance(null))
+    setUtterance(newUtterance)
+    window.speechSynthesis.speak(newUtterance)
+  }
+
   return (
     <VoicesContext.Provider
       value={{
@@ -54,6 +72,9 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
         setUtterance,
         volume,
         setVolume: setVolumeLocal,
+        muted,
+        setMuted: setMutedLocal,
+        createUtterance,
       }}
     >
       {children}
