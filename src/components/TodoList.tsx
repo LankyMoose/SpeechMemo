@@ -3,8 +3,10 @@ import type { TodoItem as Todo } from "$/types"
 import { DeleteIcon } from "$/components/icons/DeleteIcon"
 import { isNewTodo, useTodos } from "$/context/TodosContext"
 import { TextToSpeech } from "./TextToSpeach"
+import { useVoices } from "$/context/VoicesContext"
 
 export function TodoList() {
+  const { utterance } = useVoices()
   const { todos, deleteTodo } = useTodos()
 
   return (
@@ -15,6 +17,9 @@ export function TodoList() {
           in={!todo.deleted}
           onTransitionEnd={(state) => {
             if (state === "exited") {
+              if (utterance?.text === todo.text) {
+                window.speechSynthesis.cancel()
+              }
               deleteTodo(todo.id, true)
             }
           }}
