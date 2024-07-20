@@ -52,11 +52,11 @@ export function SpeechProvider(props: {
     const micPerm = microphonePermissionState.value
     const newSpeech = new SpeechRecognition()
     newSpeech.addEventListener("error", (event) => {
-      // silence prompt-abort scenario
+      // handle prompt-abort scenario
       if (micPerm === "prompt" && event.error === "aborted") {
         return
       }
-      alert(`Oops! An error occurred:\n${event.error}`)
+      //alert(`Oops! An error occurred:\n${event.error}`)
       setSpeech(null)
       setRecording(false)
     })
