@@ -47,7 +47,7 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
     setSelectedVoice(voice)
   }
 
-  const createUtterance = (text: string) => {
+  const createUtterance = (text: string, onFinish?: () => void) => {
     if (utterance) {
       window.speechSynthesis.cancel()
     }
@@ -55,7 +55,10 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
     newUtterance.voice = selectedVoice
     newUtterance.volume = muted ? 0 : volume
     newUtterance.rate = 1
-    newUtterance.addEventListener("end", () => setUtterance(null))
+    newUtterance.addEventListener("end", () => {
+      setUtterance(null)
+      onFinish?.()
+    })
     setUtterance(newUtterance)
     window.speechSynthesis.speak(newUtterance)
   }
@@ -68,7 +71,6 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
         voices,
         selectedVoice,
         setSelectedVoice: setSelectedVoiceLocal,
-        utterance,
         setUtterance,
         volume,
         setVolume: setVolumeLocal,

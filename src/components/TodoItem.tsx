@@ -2,8 +2,8 @@ import { isNewTodo, useTodos } from "$/context/TodosContext"
 import type { TodoItem as Todo } from "$/types"
 import { TransitionState } from "kaioken"
 import { DeleteIcon } from "./icons/DeleteIcon"
-import { TextToSpeech } from "./TextToSpeach"
-import { useVoices } from "$/context/VoicesContext"
+import { TodoPlayer } from "./TodoPlayer"
+
 interface TodoItemProps {
   todo: Todo
   transitionState: TransitionState
@@ -11,8 +11,7 @@ interface TodoItemProps {
 }
 
 export function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
-  const { deleteTodo } = useTodos()
-  const { utterance } = useVoices()
+  const { deleteTodo, playingTodo } = useTodos()
   const opacity = transitionState === "entered" ? "1" : "0"
   const translateY = transitionState === "entered" ? "0" : "-100%"
   return (
@@ -38,10 +37,10 @@ export function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
         >
           <DeleteIcon width="1.5rem" height="1.5rem" />
         </button>
-        <TextToSpeech
-          inputText={todo.text}
+        <TodoPlayer
+          todo={todo}
           className={`${
-            todo.text === utterance?.text
+            todo.id === playingTodo?.id
               ? "text-neutral-200"
               : "text-neutral-400"
           } hover:text-neutral-200 rounded-full p-1`}

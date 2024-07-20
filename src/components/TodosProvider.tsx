@@ -1,14 +1,16 @@
 import { newTodoSymbol, TodosContext } from "$/context/TodosContext"
+import { useVoices } from "$/context/VoicesContext"
 import { storage } from "$/storage"
 import { TodoItem, TodoItemDTO } from "$/types"
 import { useState } from "kaioken"
 
 export function TodosProvider({ children }: { children: JSX.Children }) {
+  const { createUtterance, setUtterance } = useVoices()
   const [todos, setTodos] = useState<TodoItem[]>(() => {
     const todos = storage.get("todos")
     return todos ? JSON.parse(todos) : []
   })
-
+  const [playingTodo, setPlayingTodo] = useState<TodoItem | null>(null)
   const setTodosLocal = (setter: (prev: TodoItem[]) => TodoItem[]) => {
     const newTodos = setter(todos)
     setTodos(newTodos)
@@ -34,9 +36,27 @@ export function TodosProvider({ children }: { children: JSX.Children }) {
     )
   }
 
+  const playTodo = (todo: TodoItem) => {
+    if (playingTodo?.id === todo.id) {
+      window.speechSynthesis.cancel()
+      setUtterance(null)
+      setPlayingTodo(null)
+      return
+    }
+    setPlayingTodo(todo)
+    createUtterance(todo.text, () => setPlayingTodo(null))
+  }
+
   return (
     <TodosContext.Provider
-      value={{ todos, setTodos: setTodosLocal, addTodo, deleteTodo }}
+      value={{
+        todos,
+        setTodos: setTodosLocal,
+        addTodo,
+        deleteTodo,
+        playingTodo,
+        playTodo,
+      }}
     >
       {children}
     </TodosContext.Provider>

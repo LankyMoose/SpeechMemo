@@ -1,11 +1,9 @@
 import { Transition } from "kaioken"
 import { useTodos } from "$/context/TodosContext"
-import { useVoices } from "$/context/VoicesContext"
 import { TodoItem } from "./TodoItem"
 
 export function TodoList() {
-  const { utterance } = useVoices()
-  const { todos, deleteTodo } = useTodos()
+  const { todos, deleteTodo, playingTodo } = useTodos()
 
   return (
     <ul className="p-4 flex flex-col gap-4 overflow-hidden w-screen max-w-screen-md mx-auto">
@@ -15,7 +13,7 @@ export function TodoList() {
           in={!todo.deleted}
           onTransitionEnd={(state) => {
             if (state === "exited") {
-              if (utterance?.text === todo.text) {
+              if (playingTodo?.id === todo.id) {
                 window.speechSynthesis.cancel()
               }
               deleteTodo(todo.id, true)
