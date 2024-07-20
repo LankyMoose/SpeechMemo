@@ -1,7 +1,7 @@
 import { useVoices } from "$/context/VoicesContext"
-import { AudioIcon } from "$/components/icons/AudioIcon"
-import { AudioMuteIcon } from "$/components/icons/AudioMuteIcon"
 import { ElementProps } from "kaioken"
+import { PlayIcon } from "./icons/PlayIcon"
+import { StopIcon } from "./icons/StopIcon"
 
 export const TextToSpeech = ({
   inputText,
@@ -28,9 +28,9 @@ export const TextToSpeech = ({
       {...props}
     >
       {utterance?.text === inputText ? (
-        <AudioMuteIcon width="1.5rem" height="1.5rem" />
+        <StopIcon width="1.5rem" height="1.5rem" />
       ) : (
-        <AudioIcon width="1.5rem" height="1.5rem" />
+        <PlayIcon width="1.5rem" height="1.5rem" />
       )}
     </button>
   )
