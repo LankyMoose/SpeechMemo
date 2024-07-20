@@ -96,3 +96,11 @@ button:active {
     scale: 1;
   }
 }
+
+
+.truncate-380 {
+  max-width: 380px;
+  overflow: hidden;
+  min-height: 35px;
+  text-overflow: ellipsis;
+}

@@ -28,6 +28,7 @@ export const VoiceSelector = () => {
             return () => document.removeEventListener("click", handler)
           } else {
             document.body.style.overflow = "auto"
+            document.body.onclick = null
           }
         }, [state])
         return (
@@ -43,9 +44,9 @@ export const VoiceSelector = () => {
             {voices.map((voice) => (
               <button
                 key={voice.name}
-                className={`${
+                className={`truncate-380 ${
                   voice === selectedVoice ? "text-blue-300" : "text-indigo-50"
-                } text-sm hover:text-blue-300 text-nowrap bg-[#ffffff05] px-4 py-2 rounded-md`}
+                } text-sm text-left hover:text-blue-300 text-nowrap bg-[#ffffff05] px-4 py-2 rounded-md`}
                 onclick={() => {
                   setSelectedVoice(voice)
                   setSelectorOpen(false)
