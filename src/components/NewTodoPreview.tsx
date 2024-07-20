@@ -1,5 +1,4 @@
 import { Transition } from "kaioken"
-import { EllipsisIcon } from "$/components/icons/EllipsisIcon"
 import { useSpeech } from "$/context/SpeechContext"
 
 export function NewTodoPreview() {
@@ -27,11 +26,11 @@ export function NewTodoPreview() {
             className="p-4 bg-emerald-600 custom-shadow text-emerald-50 transition-all absolute top-0 mx-4 pointer-events-none rounded-lg"
           >
             {output === null ? (
-              <EllipsisIcon
-                width="1.5rem"
-                height="1.5rem"
-                className="text-neutral-200"
-              />
+              <div className="ellipsis">
+                <div style="--delay: 100ms"></div>
+                <div style="--delay: 200ms"></div>
+                <div style="--delay: 300ms"></div>
+              </div>
             ) : (
               output
             )}
