@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "kaioken"
+import { createContext, useContext } from "kaioken"
 
 export const SpeechRecognition =
   window.webkitSpeechRecognition || window.SpeechRecognition
@@ -12,7 +12,7 @@ interface SpeechRecognitionCtx {
   setFinished: (finished: boolean) => void
 }
 
-const SpeechContext = createContext<SpeechRecognitionCtx>({
+export const SpeechContext = createContext<SpeechRecognitionCtx>({
   speech: null,
   setSpeech: () => {},
   output: null,
@@ -21,16 +21,3 @@ const SpeechContext = createContext<SpeechRecognitionCtx>({
   setFinished: () => {},
 })
 export const useSpeech = () => useContext(SpeechContext)
-
-export const SpeechProvider: Kaioken.FC = ({ children }) => {
-  const [speech, setSpeech] = useState<SpeechRecognition | null>(null)
-  const [output, setOutput] = useState<string | null>(null)
-  const [finished, setFinished] = useState(true)
-  return (
-    <SpeechContext.Provider
-      value={{ speech, setSpeech, output, setOutput, finished, setFinished }}
-    >
-      {children}
-    </SpeechContext.Provider>
-  )
-}

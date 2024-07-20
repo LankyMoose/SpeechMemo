@@ -1,7 +1,7 @@
 import { Transition } from "kaioken"
 import { EllipsisIcon } from "./EllipsisIcon"
-import { useSpeech } from "./SpeechContext"
-import { useTodos } from "./TodosProvider"
+import { useTodos } from "$/context/TodosContext"
+import { useSpeech } from "$/context/SpeechContext"
 
 export function NewTodoPreview() {
   const { addTodo } = useTodos()
@@ -10,7 +10,6 @@ export function NewTodoPreview() {
   return (
     <Transition
       in={!finished}
-      //in={true}
       element={(state) => {
         if (state === "exited") return null
         const opacity = state === "entered" ? "1" : "0"

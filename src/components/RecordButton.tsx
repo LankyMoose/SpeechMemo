@@ -1,4 +1,4 @@
-import { SpeechRecognition, useSpeech } from "./SpeechContext"
+import { useSpeech, SpeechRecognition } from "$/context/SpeechContext"
 
 interface RecordButtonProps {
   onRecordedValue: () => void

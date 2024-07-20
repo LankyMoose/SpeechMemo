@@ -1,6 +1,7 @@
 import { Transition, TransitionState } from "kaioken"
-import { useTodos, TodoItem as Todo, isNewTodo } from "./TodosProvider"
+import type { TodoItem as Todo } from "$/types"
 import { DeleteIcon } from "./DeleteIcon"
+import { isNewTodo, useTodos } from "$/context/TodosContext"
 
 export function TodoList() {
   const { todos, deleteTodo } = useTodos()

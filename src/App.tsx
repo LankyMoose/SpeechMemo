@@ -1,16 +1,16 @@
-import { SpeechProvider } from "./SpeechContext"
-import { RecordButton } from "./RecordButton"
 import { useRef } from "kaioken"
-import { TodoList } from "./TodoList"
-import { TodosProvider } from "./TodosProvider"
-import { NewTodoPreview } from "./NewTodoPreview"
+import { SpeechProvider } from "./components/SpeechProvider"
+import { RecordButton } from "./components/RecordButton"
+import { TodoList } from "./components/TodoList"
+import { TodosProvider } from "./components/TodosProvider"
+import { NewTodoPreview } from "./components/NewTodoPreview"
 
 export function App() {
   const todoListContainerRef = useRef<HTMLDivElement | null>(null)
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
   if (!window.speechSynthesis || !SpeechRecognition) {
-    return <p>Speech synthesis not supported</p>
+    return <p>Speech synthesis/recognition not supported</p>
   }
   return (
     <SpeechProvider>
