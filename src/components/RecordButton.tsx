@@ -10,8 +10,8 @@ export function RecordButton() {
         !!speech ? "active" : ""
       }`}
       onpointerdown={startSpeechRecognition}
-      onpointerup={() => speech?.abort()}
-      onpointerleave={() => speech?.abort()}
+      onpointerup={() => speech?.stop()}
+      onpointerleave={() => speech?.stop()}
     ></button>
   )
 }
