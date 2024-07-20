@@ -7,10 +7,12 @@ export const TextToSpeech = ({ inputText }: { inputText: string }) => {
   return (
     <button
       onclick={() => {
-        if (utterance) {
+        if (utterance?.text === inputText) {
           window.speechSynthesis.cancel()
           setUtterance(null)
           return
+        } else if (utterance) {
+          window.speechSynthesis.cancel()
         }
         const newUtterance = new SpeechSynthesisUtterance(inputText)
         newUtterance.voice = selectedVoice
