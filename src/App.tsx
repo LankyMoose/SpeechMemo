@@ -20,7 +20,7 @@ export function App() {
             <VolumeSelector />
             <VoiceSelector />
           </header>
-          <main className="flex-grow">
+          <main className="w-full flex-grow">
             <TodoList />
           </main>
           <footer className="w-full sticky bottom-0 flex items-center p-4 justify-center z-[99999]">
