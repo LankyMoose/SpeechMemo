@@ -12,7 +12,6 @@ export function SpeechProvider(props: {
   const [speech, setSpeech] = useState<SpeechRecognition | null>(null)
   const output = signal<string | null>(null)
   const [recording, setRecording] = useState(false)
-  const micPerms = microphonePermissionState.value
 
   if (isBraveDesktop) {
     return (
@@ -36,7 +35,7 @@ export function SpeechProvider(props: {
     )
   }
 
-  if (micPerms === "denied") {
+  if (microphonePermissionState.value === "denied") {
     return (
       <ErrorDisplay>
         <p className="mb-8">Microphone permission denied 😭</p>
@@ -53,6 +52,7 @@ export function SpeechProvider(props: {
     const micPerm = microphonePermissionState.value
     const newSpeech = new SpeechRecognition()
     newSpeech.addEventListener("error", (event) => {
+      // silence prompt-abort scenario
       if (micPerm === "prompt" && event.error === "aborted") {
         return
       }
@@ -81,7 +81,6 @@ export function SpeechProvider(props: {
       setRecording(true)
     })
     newSpeech.addEventListener("end", () => {
-      console.log("end")
       setSpeech(null)
       setRecording(false)
       if (output.value !== null) {

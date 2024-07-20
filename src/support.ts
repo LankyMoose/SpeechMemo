@@ -21,11 +21,9 @@ navigator.permissions
     { name: "microphone" }
   )
   .then(function (permissionStatus) {
-    console.log(permissionStatus.state) // granted, denied, prompt
     microphonePermissionState.value = permissionStatus.state
 
     permissionStatus.onchange = function () {
       microphonePermissionState.value = this.state
-      console.log(this.state)
     }
   })
