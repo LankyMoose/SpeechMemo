@@ -1,7 +1,8 @@
-import { useVoices } from "./VoicesContext"
+import { useVoices } from "$/context/VoicesContext"
 
 export const VoiceSelector = () => {
   const { voices, selectedVoice, setSelectedVoice } = useVoices()
+
   return (
     <select
       value={selectedVoice?.name ?? ""}

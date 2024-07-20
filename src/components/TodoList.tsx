@@ -1,7 +1,8 @@
 import { Transition, TransitionState } from "kaioken"
 import type { TodoItem as Todo } from "$/types"
-import { DeleteIcon } from "./DeleteIcon"
+import { DeleteIcon } from "$/components/icons/DeleteIcon"
 import { isNewTodo, useTodos } from "$/context/TodosContext"
+import { TextToSpeech } from "./TextToSpeach"
 
 export function TodoList() {
   const { todos, deleteTodo } = useTodos()
@@ -57,12 +58,15 @@ function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
         <small className="text-neutral-400">{numToDate(todo.createdAt)}</small>
       </div>
 
-      <div className="flex gap-2 items-center">
+      <div className="flex flex-col gap-4 items-center">
         <button
           className="text-neutral-400 hover:text-neutral-200"
           onclick={() => deleteTodo(todo.id, false)}
         >
           <DeleteIcon width="2rem" height="2rem" />
+        </button>
+        <button className="text-neutral-400 hover:text-neutral-200">
+          <TextToSpeech inputText={todo.text} />
         </button>
       </div>
     </li>

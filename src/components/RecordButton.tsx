@@ -4,7 +4,7 @@ interface RecordButtonProps {
   onRecordedValue: () => void
 }
 
-export const RecordButton = (props: RecordButtonProps) => {
+export function RecordButton(props: RecordButtonProps) {
   const { speech, setSpeech, setOutput, output, setFinished } = useSpeech()
 
   const handleRecordingEnd = () => {

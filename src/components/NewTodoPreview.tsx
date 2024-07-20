@@ -1,5 +1,5 @@
 import { Transition } from "kaioken"
-import { EllipsisIcon } from "./EllipsisIcon"
+import { EllipsisIcon } from "$/components/icons/EllipsisIcon"
 import { useTodos } from "$/context/TodosContext"
 import { useSpeech } from "$/context/SpeechContext"
 
