@@ -1,17 +1,18 @@
 import { newTodoSymbol, TodosContext } from "$/context/TodosContext"
+import { storage } from "$/storage"
 import { TodoItem, TodoItemDTO } from "$/types"
 import { useState } from "kaioken"
 
 export function TodosProvider({ children }: { children: JSX.Children }) {
   const [todos, setTodos] = useState<TodoItem[]>(() => {
-    const todos = localStorage.getItem("s2todos")
+    const todos = storage.get("todos")
     return todos ? JSON.parse(todos) : []
   })
 
   const setTodosLocal = (setter: (prev: TodoItem[]) => TodoItem[]) => {
     const newTodos = setter(todos)
     setTodos(newTodos)
-    localStorage.setItem("s2todos", JSON.stringify(newTodos))
+    storage.set("todos", JSON.stringify(newTodos))
   }
 
   const addTodo = (todo: TodoItemDTO) => {

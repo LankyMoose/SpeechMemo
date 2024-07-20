@@ -1,4 +1,5 @@
 import { VoicesContext } from "$/context/VoicesContext"
+import { storage } from "$/storage"
 import { useEffect, useState } from "kaioken"
 
 export function VoicesProvider({ children }: { children: JSX.Children }) {
@@ -15,9 +16,12 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
 
   useEffect(() => {
     window.speechSynthesis.addEventListener("voiceschanged", () => {
-      const _voices = window.speechSynthesis.getVoices()
-      setVoices(_voices)
-      setSelectedVoice(_voices[0])
+      const voices = window.speechSynthesis.getVoices()
+      const savedSetting = storage.get("selectedVoice")
+      const voice =
+        voices.find((voice) => voice.name === savedSetting) || voices[0]
+      setVoices(voices)
+      setSelectedVoice(voice)
     })
 
     window.addEventListener("beforeunload", () => {
@@ -26,6 +30,11 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
     })
   }, [])
 
+  const setSelectedVoiceLocal = (voice: SpeechSynthesisVoice | null) => {
+    storage.set("selectedVoice", voice?.name || "")
+    setSelectedVoice(voice)
+  }
+
   return (
     <VoicesContext.Provider
       value={{
@@ -33,7 +42,7 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
         setSelectorOpen,
         voices,
         selectedVoice,
-        setSelectedVoice,
+        setSelectedVoice: setSelectedVoiceLocal,
         utterance,
         setUtterance,
       }}
