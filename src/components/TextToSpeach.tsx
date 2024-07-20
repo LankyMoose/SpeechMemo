@@ -14,6 +14,7 @@ export const TextToSpeech = ({ inputText }: { inputText: string }) => {
         }
         const newUtterance = new SpeechSynthesisUtterance(inputText)
         newUtterance.voice = selectedVoice
+        newUtterance.rate = 1.1
         newUtterance.addEventListener("end", () => setUtterance(null))
         setUtterance(newUtterance)
         window.speechSynthesis.speak(newUtterance)

@@ -1,6 +1,8 @@
 import { createContext, useContext } from "kaioken"
 
 interface VoicesCtx {
+  selectorOpen: boolean
+  setSelectorOpen: (open: boolean) => void
   voices: SpeechSynthesisVoice[]
   selectedVoice: SpeechSynthesisVoice | null
   setSelectedVoice: (voice: SpeechSynthesisVoice | null) => void
@@ -8,11 +10,5 @@ interface VoicesCtx {
   setUtterance: (utterance: SpeechSynthesisUtterance | null) => void
 }
 
-export const VoicesContext = createContext<VoicesCtx>({
-  voices: [],
-  selectedVoice: null,
-  setSelectedVoice: () => {},
-  utterance: null,
-  setUtterance: () => {},
-})
+export const VoicesContext = createContext<VoicesCtx>(null as any)
 export const useVoices = () => useContext(VoicesContext)

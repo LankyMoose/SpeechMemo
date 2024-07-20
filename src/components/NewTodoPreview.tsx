@@ -26,7 +26,7 @@ export function NewTodoPreview() {
               translate: `0 ${translateY}`,
               textShadow: "1px 1px 1px #222a",
             }}
-            className="p-4 bg-emerald-600 my-shadow text-emerald-50 transition-all absolute top-0 mx-4 pointer-events-none rounded-lg"
+            className="p-4 bg-emerald-600 custom-shadow text-emerald-50 transition-all absolute top-0 mx-4 pointer-events-none rounded-lg"
           >
             {output === null || output.trim() === "" ? (
               <EllipsisIcon

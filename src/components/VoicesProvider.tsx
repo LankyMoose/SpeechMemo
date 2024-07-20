@@ -5,16 +5,19 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
   if (!window.speechSynthesis) {
     return <p>Speech synthesis not supported</p>
   }
+  const [selectorOpen, setSelectorOpen] = useState(false)
+  const [voices, setVoices] = useState(window.speechSynthesis.getVoices())
   const [selectedVoice, setSelectedVoice] =
     useState<SpeechSynthesisVoice | null>(null)
-  const [voices, setVoices] = useState(window.speechSynthesis.getVoices())
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null
   )
 
   useEffect(() => {
     window.speechSynthesis.addEventListener("voiceschanged", () => {
-      setVoices(window.speechSynthesis.getVoices())
+      const _voices = window.speechSynthesis.getVoices()
+      setVoices(_voices)
+      setSelectedVoice(_voices[0])
     })
 
     window.addEventListener("beforeunload", () => {
@@ -26,6 +29,8 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
   return (
     <VoicesContext.Provider
       value={{
+        selectorOpen,
+        setSelectorOpen,
         voices,
         selectedVoice,
         setSelectedVoice,

@@ -20,7 +20,7 @@ export function RecordButton(props: RecordButtonProps) {
     <div>
       <button
         oncontextmenu={(e) => e.preventDefault()}
-        className={` my-shadow rounded-full bg-[#9f2121] border-white border-4 w-12 h-12 ${
+        className={`custom-shadow rounded-full bg-[#9f2121] border-white border-4 w-12 h-12 ${
           !!speech ? "active" : ""
         }`}
         onpointerdown={() => {

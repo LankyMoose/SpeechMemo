@@ -38,7 +38,7 @@ button:active {
   border-radius: .5rem;
 }
 
-.my-shadow {
+.custom-shadow {
   box-shadow: 1px 1px 6px 1px #0007;
 }
 
