@@ -40,7 +40,7 @@ export const VoiceSelector = () => {
               overflowY: state === "entered" ? "auto" : "hidden",
               scrollbarWidth: "thin",
             }}
-            className="z-[9999999999] fixed right-0 sm:rounded-lg sm:right-16 bottom-0 sm:bottom-16 w-screen max-w-screen sm:w-[400px] h-screen max-h-screen sm:max-h-[600px] transition-all bg-[#000b] backdrop-blur flex flex-col p-[2px] gap-[2px]"
+            className="voice-selector z-[9999999999] fixed right-0 sm:right-16 bottom-0 sm:bottom-16 sm:rounded-lg transition-all bg-[#000b] backdrop-blur flex flex-col p-[2px] gap-[2px]"
           >
             {voices.map((voice) => (
               <button
