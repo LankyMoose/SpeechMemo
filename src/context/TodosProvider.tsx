@@ -1,8 +1,8 @@
+import { useState } from "kaioken"
 import { newTodoSymbol, TodosContext } from "$/context/TodosContext"
 import { useVoices } from "$/context/VoicesContext"
 import { storage } from "$/storage"
 import { TodoItem, TodoItemDTO } from "$/types"
-import { useState } from "kaioken"
 
 export function TodosProvider({ children }: { children: JSX.Children }) {
   const { createUtterance, setUtterance } = useVoices()

@@ -1,6 +1,6 @@
+import { useEffect, useState } from "kaioken"
 import { VoicesContext } from "$/context/VoicesContext"
 import { storage } from "$/storage"
-import { useEffect, useState } from "kaioken"
 
 export function VoicesProvider({ children }: { children: JSX.Children }) {
   if (!window.speechSynthesis) {

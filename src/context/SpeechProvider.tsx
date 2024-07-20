@@ -1,8 +1,8 @@
+import { signal, useState } from "kaioken"
 import { SpeechContext } from "$/context/SpeechContext"
 import { useTodos } from "$/context/TodosContext"
-import { signal, useState } from "kaioken"
-import { isMobile, isBraveDesktop } from "$/support"
-import { ErrorDisplay } from "./ErrorDisplay"
+import { ErrorDisplay } from "$/components/ErrorDisplay"
+import { isMobile, isBraveDesktop, microphoneEnabled } from "$/support"
 
 export function SpeechProvider(props: {
   children: JSX.Children
@@ -12,6 +12,7 @@ export function SpeechProvider(props: {
   const [speech, setSpeech] = useState<SpeechRecognition | null>(null)
   const output = signal<string | null>(null)
   const [recording, setRecording] = useState(false)
+  const micPerms = microphoneEnabled.value
 
   if (isBraveDesktop) {
     return (
@@ -35,7 +36,17 @@ export function SpeechProvider(props: {
     )
   }
 
+  if (micPerms === "denied") {
+    return (
+      <ErrorDisplay>
+        <p className="mb-8">Microphone permission denied 😭</p>
+        <p>Please enable microphone!</p>
+      </ErrorDisplay>
+    )
+  }
+
   const startSpeechRecognition = () => {
+    const micPerm = microphoneEnabled.value
     const newSpeech = new SpeechRecognition()
     newSpeech.addEventListener("error", (event) => {
       alert(`Oops! An error occurred:\n${event.error}`)
@@ -44,7 +55,6 @@ export function SpeechProvider(props: {
     })
     newSpeech.continuous = true
     newSpeech.interimResults = !isMobile
-    newSpeech.start()
     newSpeech.addEventListener("result", (event) => {
       const newOutput = Array.from(event.results)
         .filter((result) => !isMobile || result.isFinal)
@@ -55,10 +65,16 @@ export function SpeechProvider(props: {
       output.value = newOutput || null
     })
     newSpeech.addEventListener("start", () => {
+      // if the user had to respond to a prompt, abort the recording
+      if (micPerm === "prompt") {
+        newSpeech.abort()
+        return
+      }
       setSpeech(newSpeech)
       setRecording(true)
     })
     newSpeech.addEventListener("end", () => {
+      console.log("end")
       setSpeech(null)
       setRecording(false)
       if (output.value !== null) {
@@ -66,6 +82,7 @@ export function SpeechProvider(props: {
         props.onRecordedValue()
       }
     })
+    newSpeech.start()
   }
 
   const onNewTodoAnimationCompleted = () => {

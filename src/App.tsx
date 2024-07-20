@@ -1,9 +1,9 @@
-import { SpeechProvider } from "./components/SpeechProvider"
+import { SpeechProvider } from "./context/SpeechProvider"
+import { TodosProvider } from "./context/TodosProvider"
+import { VoicesProvider } from "./context/VoicesProvider"
 import { RecordButton } from "./components/RecordButton"
 import { TodoList } from "./components/TodoList"
-import { TodosProvider } from "./components/TodosProvider"
 import { NewTodoPreview } from "./components/NewTodoPreview"
-import { VoicesProvider } from "./components/VoicesProvider"
 import { VoiceSelector } from "./components/VoicesSelector"
 import { VolumeSelector } from "./components/VolumeSelector"
 
