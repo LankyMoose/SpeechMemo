@@ -20,7 +20,7 @@ export function SpeechProvider(props: {
         <p className="mb-8">
           Brave Desktop does not support speech recognition 😭
         </p>
-        <p>Try another browser!</p>
+        <small>Try another browser!</small>
       </ErrorDisplay>
     )
   }
@@ -31,7 +31,7 @@ export function SpeechProvider(props: {
     return (
       <ErrorDisplay>
         <p className="mb-8">Speech recognition not supported 😭</p>
-        <p>Try another browser!</p>
+        <small>Try another browser!</small>
       </ErrorDisplay>
     )
   }
@@ -40,7 +40,11 @@ export function SpeechProvider(props: {
     return (
       <ErrorDisplay>
         <p className="mb-8">Microphone permission denied 😭</p>
-        <p>Please enable microphone!</p>
+        <small>
+          SpeechMemo requires microphone access to function. It only records
+          while you hold down the red button. Please enable microphone
+          permissions!
+        </small>
       </ErrorDisplay>
     )
   }
