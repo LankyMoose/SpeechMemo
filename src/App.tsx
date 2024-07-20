@@ -19,10 +19,13 @@ export function App() {
             <div className="flex-grow">
               <TodoList />
             </div>
-            <footer className="w-full sticky bottom-0 flex h-[80px] items-center p-2 justify-center z-[99999]">
-              <NewTodoPreview />
-              <RecordButton />
-              <div className="fixed right-8">
+            <footer className="w-full sticky bottom-0 grid grid-cols-3 items-center p-2 justify-between z-[99999]">
+              <div></div>
+              <div className="flex-grow flex justify-center items-center">
+                <NewTodoPreview />
+                <RecordButton />
+              </div>
+              <div className="flex justify-end items-center pr-4">
                 <VoiceSelector />
               </div>
             </footer>

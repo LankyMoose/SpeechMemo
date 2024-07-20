@@ -65,14 +65,15 @@ function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
 
       <div className="flex flex-col gap-4 items-center">
         <button
-          className="text-neutral-400 hover:text-neutral-200"
+          className="text-neutral-400 hover:text-neutral-200 rounded-full p-1"
           onclick={() => deleteTodo(todo.id, false)}
         >
-          <DeleteIcon width="2rem" height="2rem" />
+          <DeleteIcon width="1.5rem" height="1.5rem" />
         </button>
-        <button className="text-neutral-400 hover:text-neutral-200">
-          <TextToSpeech inputText={todo.text} />
-        </button>
+        <TextToSpeech
+          inputText={todo.text}
+          className="text-neutral-400 hover:text-neutral-200 rounded-full p-1"
+        />
       </div>
     </li>
   )

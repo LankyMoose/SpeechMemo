@@ -6,8 +6,11 @@ export function VoiceSelector() {
   const { selectorOpen, setSelectorOpen } = useVoices()
   return (
     <>
-      <button onclick={() => setSelectorOpen(!selectorOpen)}>
-        <MicrophoneIcon />
+      <button
+        className="w-12 h-12 rounded-full flex items-center justify-center"
+        onclick={() => setSelectorOpen(!selectorOpen)}
+      >
+        <MicrophoneIcon width="2rem" height="2rem" />
       </button>
       <Portal container={document.getElementById("portal-root")!}>
         <VoiceSelectorMenu />
