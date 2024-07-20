@@ -1,7 +1,22 @@
 import { useVoices } from "$/context/VoicesContext"
-import { Transition, useEffect, useRef } from "kaioken"
+import { Portal, Transition, useEffect, useRef } from "kaioken"
+import { MicrophoneIcon } from "./icons/MicrophoneIcon"
 
-export const VoiceSelector = () => {
+export function VoiceSelector() {
+  const { selectorOpen, setSelectorOpen } = useVoices()
+  return (
+    <>
+      <button onclick={() => setSelectorOpen(!selectorOpen)}>
+        <MicrophoneIcon />
+      </button>
+      <Portal container={document.getElementById("portal-root")!}>
+        <VoiceSelectorMenu />
+      </Portal>
+    </>
+  )
+}
+
+function VoiceSelectorMenu() {
   const {
     voices,
     selectedVoice,
