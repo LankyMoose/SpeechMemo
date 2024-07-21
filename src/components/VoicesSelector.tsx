@@ -27,6 +27,9 @@ function VoiceSelectorMenu() {
     setSelectedVoice,
     selectorOpen,
     setSelectorOpen,
+    language,
+    languages,
+    setLanguage,
   } = useVoices()
 
   return (
@@ -35,7 +38,7 @@ function VoiceSelectorMenu() {
       element={(state) => {
         console.log("VoiceSelectorMenu", state)
         const ref = useRef<HTMLDivElement | null>(null)
-        if (state === "exited") return null
+
         useEffect(() => {
           if (state === "entered") {
             document.body.style.overflow = "hidden"
@@ -51,6 +54,9 @@ function VoiceSelectorMenu() {
             document.body.onclick = null
           }
         }, [state])
+
+        if (state === "exited") return null
+
         return (
           <div
             ref={ref}
@@ -62,20 +68,37 @@ function VoiceSelectorMenu() {
             }}
             className="voice-selector z-[9999999999] fixed right-0 sm:right-16 top-0 sm:top-16 sm:rounded-lg transition-all bg-[#000b] backdrop-blur flex flex-col p-[2px] gap-[2px]"
           >
-            {voices.map((voice) => (
-              <button
-                key={voice.name}
-                className={`truncate-text ${
-                  voice === selectedVoice ? "text-blue-300" : "text-indigo-50"
-                } text-sm text-left hover:text-blue-300 text-nowrap bg-[#ffffff05] px-4 py-2 rounded-md`}
-                onclick={() => {
-                  setSelectedVoice(voice)
-                  setSelectorOpen(false)
-                }}
+            <div className="sticky top-[-2px]">
+              <select
+                className="px-4 py-2 w-full"
+                onchange={(e) => setLanguage(e.target.value)}
               >
-                {voice.name}
-              </button>
-            ))}
+                <option key="" value="">
+                  Select a language
+                </option>
+                {languages.map((lang) => (
+                  <option key={lang} value={lang} selected={lang === language}>
+                    {lang}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {voices
+              .filter((voice) => voice.lang === language)
+              .map((voice) => (
+                <button
+                  key={voice.name}
+                  className={`truncate-text ${
+                    voice === selectedVoice ? "text-blue-300" : "text-indigo-50"
+                  } text-sm text-left hover:text-blue-300 text-nowrap bg-[#ffffff05] px-4 py-2 rounded-md`}
+                  onclick={() => {
+                    setSelectedVoice(voice)
+                    setSelectorOpen(false)
+                  }}
+                >
+                  {voice.name}
+                </button>
+              ))}
             {voices.length === 0 ? (
               <p className="text-center p-4 text-red-400 text-xl">
                 No voices found. Check your browser settings.

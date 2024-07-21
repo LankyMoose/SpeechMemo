@@ -8,6 +8,8 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
   }
   const [selectorOpen, setSelectorOpen] = useState(false)
   const [voices, setVoices] = useState(window.speechSynthesis.getVoices())
+  const [languages, setLanguages] = useState<string[]>([])
+  const [language, setLanguage] = useState("")
   const [selectedVoice, setSelectedVoice] =
     useState<SpeechSynthesisVoice | null>(null)
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
@@ -28,12 +30,19 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
 
   useEffect(() => {
     window.speechSynthesis.addEventListener("voiceschanged", () => {
-      const voices = window.speechSynthesis.getVoices().slice(0, 99)
+      const voices = window.speechSynthesis.getVoices()
+      // get a list of distinct languages
+      const languages = voices
+        .map((voice) => voice.lang)
+        .filter((lang, index, self) => self.indexOf(lang) === index)
       const savedSetting = storage.get("selectedVoice")
       const voice =
         voices.find((voice) => voice.name === savedSetting) || voices[0]
+
+      setLanguage(voice?.lang || window.navigator.language)
       setVoices(voices)
       setSelectedVoice(voice)
+      setLanguages(languages)
     })
 
     window.addEventListener("beforeunload", () => {
@@ -49,6 +58,7 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
 
   const createUtterance = (text: string, onFinish?: () => void) => {
     try {
+      console.log("createUtterance", text)
       if (utterance) {
         window.speechSynthesis.cancel()
       }
@@ -77,6 +87,9 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
         setSelectorOpen,
         voices,
         selectedVoice,
+        languages,
+        language,
+        setLanguage,
         setSelectedVoice: setSelectedVoiceLocal,
         setUtterance,
         volume,

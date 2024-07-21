@@ -4,6 +4,9 @@ interface VoicesCtx {
   selectorOpen: boolean
   setSelectorOpen: (open: boolean) => void
   voices: SpeechSynthesisVoice[]
+  languages: string[]
+  language: string
+  setLanguage: (language: string) => void
   selectedVoice: SpeechSynthesisVoice | null
   setSelectedVoice: (voice: SpeechSynthesisVoice | null) => void
   setUtterance: (utterance: SpeechSynthesisUtterance | null) => void
