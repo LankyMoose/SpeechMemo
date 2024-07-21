@@ -27,7 +27,9 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
   }
 
   useEffect(() => {
+    console.log("pre-voices-changed")
     window.speechSynthesis.addEventListener("voiceschanged", () => {
+      console.log("voices-changed")
       const voices = window.speechSynthesis.getVoices()
       const savedSetting = storage.get("selectedVoice")
       const voice =
