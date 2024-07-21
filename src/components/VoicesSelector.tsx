@@ -4,6 +4,7 @@ import { MicrophoneIcon } from "./icons/MicrophoneIcon"
 
 export function VoiceSelector() {
   const { selectorOpen, setSelectorOpen } = useVoices()
+  console.log("VoiceSelector", selectorOpen)
   return (
     <>
       <button
@@ -32,6 +33,7 @@ function VoiceSelectorMenu() {
     <Transition
       in={selectorOpen}
       element={(state) => {
+        console.log("VoiceSelectorMenu", state)
         const ref = useRef<HTMLDivElement | null>(null)
         if (state === "exited") return null
         useEffect(() => {
