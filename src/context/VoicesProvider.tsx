@@ -27,9 +27,7 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
   }
 
   useEffect(() => {
-    console.log("pre-voices-changed")
     window.speechSynthesis.addEventListener("voiceschanged", () => {
-      console.log("voices-changed")
       const voices = window.speechSynthesis.getVoices()
       const savedSetting = storage.get("selectedVoice")
       const voice =
@@ -50,19 +48,26 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
   }
 
   const createUtterance = (text: string, onFinish?: () => void) => {
-    if (utterance) {
-      window.speechSynthesis.cancel()
+    try {
+      if (utterance) {
+        window.speechSynthesis.cancel()
+      }
+      const newUtterance = new SpeechSynthesisUtterance(text)
+      newUtterance.voice = selectedVoice
+      newUtterance.volume = muted ? 0 : volume
+      newUtterance.rate = 1
+      newUtterance.addEventListener("end", () => {
+        setUtterance(null)
+        onFinish?.()
+      })
+      setUtterance(newUtterance)
+      window.speechSynthesis.speak(newUtterance)
+    } catch (error) {
+      console.error(
+        "[SpeechMemo]: an error occurred during createUtterance()",
+        error
+      )
     }
-    const newUtterance = new SpeechSynthesisUtterance(text)
-    newUtterance.voice = selectedVoice
-    newUtterance.volume = muted ? 0 : volume
-    newUtterance.rate = 1
-    newUtterance.addEventListener("end", () => {
-      setUtterance(null)
-      onFinish?.()
-    })
-    setUtterance(newUtterance)
-    window.speechSynthesis.speak(newUtterance)
   }
 
   return (
