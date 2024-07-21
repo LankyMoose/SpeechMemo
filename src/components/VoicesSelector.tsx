@@ -80,9 +80,7 @@ function VoiceSelectorMenu() {
               <p className="text-center p-4 text-red-400 text-xl">
                 No voices found. Check your browser settings.
               </p>
-            ) : (
-              <p>test</p>
-            )}
+            ) : null}
           </div>
         )
       }}

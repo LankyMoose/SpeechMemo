@@ -28,7 +28,7 @@ export function VoicesProvider({ children }: { children: JSX.Children }) {
 
   useEffect(() => {
     window.speechSynthesis.addEventListener("voiceschanged", () => {
-      const voices = window.speechSynthesis.getVoices()
+      const voices = window.speechSynthesis.getVoices().slice(0, 99)
       const savedSetting = storage.get("selectedVoice")
       const voice =
         voices.find((voice) => voice.name === savedSetting) || voices[0]
