@@ -6,8 +6,8 @@ export function TodoList() {
   const { todos, deleteTodo, playingTodo } = useTodos()
 
   return (
-    <ul className="p-4 flex flex-col gap-4 overflow-hidden w-full max-w-screen-md mx-auto">
-      {todos.map((todo, idx) => (
+    <ul className="p-4 flex flex-col gap-4 overflow-hidden w-full max-w-(--breakpoint-md) mx-auto">
+      {todos.value.map((todo, idx) => (
         <Transition
           key={todo.id}
           in={!todo.deleting}
@@ -22,7 +22,7 @@ export function TodoList() {
           element={(state) => (
             <TodoItem
               todo={todo}
-              zIndex={todos.length - idx}
+              zIndex={todos.peek().length - idx}
               transitionState={state}
             />
           )}

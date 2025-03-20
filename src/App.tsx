@@ -16,14 +16,14 @@ export function App() {
     <VoicesProvider>
       <TodosProvider>
         <SpeechProvider onRecordedValue={scrollToTop}>
-          <header className="w-full sticky top-0 flex justify-between items-center p-2 z-[999999999999999]">
+          <header className="w-full sticky top-0 flex justify-between items-center p-2 z-999999999999999">
             <VolumeSelector />
             <VoiceSelector />
           </header>
-          <main className="w-full flex-grow">
+          <main className="w-full grow">
             <TodoList />
           </main>
-          <footer className="w-full sticky bottom-0 flex items-center p-4 justify-center z-[99999]">
+          <footer className="w-full sticky bottom-0 flex items-center p-4 justify-center z-99999">
             <NewTodoPreview />
             <RecordButton />
           </footer>

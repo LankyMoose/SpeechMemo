@@ -25,7 +25,7 @@ export function TodoItem({ todo, transitionState, zIndex }: TodoItemProps) {
         isNewTodo(todo) ? "highlight" : ""
       }`}
     >
-      <div className="flex-grow flex flex-col gap-2 select-none">
+      <div className="grow flex flex-col gap-2 select-none">
         <span>{todo.text}</span>
         <small className="text-neutral-400">{numToDate(todo.createdAt)}</small>
       </div>

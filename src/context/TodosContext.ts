@@ -1,8 +1,8 @@
 import { TodoItem, TodoItemDTO } from "$/types"
-import { createContext, useContext } from "kaioken"
+import { createContext, Signal, useContext } from "kaioken"
 
 interface TodosCtx {
-  todos: TodoItem[]
+  todos: Signal<TodoItem[]>
   setTodos: (setter: (prev: TodoItem[]) => TodoItem[]) => void
   playTodo: (todo: TodoItem) => void
   playingTodo: TodoItem | null

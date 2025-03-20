@@ -64,7 +64,7 @@ function VoiceSelectorMenu() {
               overflowY: state === "entered" ? "auto" : "hidden",
               scrollbarWidth: "thin",
             }}
-            className="voice-selector z-[9999999999] fixed right-0 sm:right-16 top-0 sm:top-16 sm:rounded-lg transition-all bg-[#000b] backdrop-blur flex flex-col p-[2px] gap-[2px]"
+            className="voice-selector z-9999999999 fixed right-0 sm:right-16 top-0 sm:top-16 sm:rounded-lg transition-all bg-[#000b] backdrop-blur-sm flex flex-col p-[2px] gap-[2px]"
           >
             <div className="sticky top-[-2px]">
               <select

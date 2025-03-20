@@ -1,19 +1,18 @@
-import { useState } from "kaioken"
+import { useState, useSignal } from "kaioken"
 import { newTodoSymbol, TodosContext } from "$/context/TodosContext"
 import { useVoices } from "$/context/VoicesContext"
 import { storage } from "$/storage"
 import { TodoItem, TodoItemDTO } from "$/types"
 
+const todosFromStorage = storage.get("todos")
+const initialTodos = todosFromStorage ? JSON.parse(todosFromStorage) : []
+
 export function TodosProvider({ children }: { children: JSX.Children }) {
   const { createUtterance, setUtterance } = useVoices()
-  const [todos, setTodos] = useState<TodoItem[]>(() => {
-    const todos = storage.get("todos")
-    return todos ? JSON.parse(todos) : []
-  })
+  const todos = useSignal<TodoItem[]>(initialTodos)
   const [playingTodo, setPlayingTodo] = useState<TodoItem | null>(null)
   const setTodosLocal = (setter: (prev: TodoItem[]) => TodoItem[]) => {
-    const newTodos = setter(todos)
-    setTodos(newTodos)
+    const newTodos = (todos.value = setter(todos.value))
     storage.set("todos", JSON.stringify(newTodos))
   }
 
@@ -27,12 +26,13 @@ export function TodosProvider({ children }: { children: JSX.Children }) {
       ...todos,
     ])
   }
+
   const deleteTodo = (id: string, hardDelete: boolean) => {
     if (hardDelete) {
       return setTodosLocal((todos) => todos.filter((todo) => todo.id !== id))
     }
-    setTodos((todos) =>
-      todos.map((todo) => (todo.id === id ? { ...todo, deleting: true } : todo))
+    todos.value = todos.value.map((todo) =>
+      todo.id === id ? { ...todo, deleting: true } : todo
     )
   }
 
